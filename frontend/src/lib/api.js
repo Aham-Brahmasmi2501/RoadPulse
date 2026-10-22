@@ -8,7 +8,19 @@ export const apiUrl = (path) => `${BASE}${path}`
 export const media = (u) => (!u ? null : u.startsWith('http') ? u : `${MEDIA_BASE}${u}`)
 
 async function request(path, opts = {}) {
-  const res = await fetch(apiUrl(path), opts)
+  let res
+  try {
+    res = await fetch(apiUrl(path), opts)
+  } catch {
+    throw new Error(`Cannot reach the RoadPulse backend at ${BASE}. Is the API server running?`)
+  }
+  // A non-JSON 404 means the request hit a static host (e.g. Vercel) instead of the FastAPI backend
+  if (res.status === 404 && !(res.headers.get('content-type') || '').includes('json')) {
+    throw new Error(
+      `Backend not found at ${BASE}. This site is only the dashboard: deploy the backend (Hugging Face Space / Docker) ` +
+      'and set VITE_API_URL to its address, then redeploy.',
+    )
+  }
   if (!res.ok) {
     let msg = `${res.status} ${res.statusText}`
     try {
