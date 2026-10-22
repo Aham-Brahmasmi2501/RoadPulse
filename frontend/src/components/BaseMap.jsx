@@ -6,14 +6,17 @@ export const AHMEDABAD = [23.085, 72.555]
 const TILE_URL = import.meta.env.VITE_TILE_URL || 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
 
 export default function BaseMap({ center = AHMEDABAD, zoom = 13, dark = true, children, className = '', ...rest }) {
+  // The dark class sits on a wrapper: MapContainer only applies className once, at mount
   return (
-    <MapContainer center={center} zoom={zoom} className={`${dark ? 'dark-tiles' : ''} ${className}`} scrollWheelZoom {...rest}>
-      <TileLayer
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-        url={TILE_URL}
-        maxZoom={19}
-      />
-      {children}
-    </MapContainer>
+    <div className={`${dark ? 'dark-tiles' : ''} ${className}`}>
+      <MapContainer center={center} zoom={zoom} className="h-full w-full" scrollWheelZoom {...rest}>
+        <TileLayer
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          url={TILE_URL}
+          maxZoom={19}
+        />
+        {children}
+      </MapContainer>
+    </div>
   )
 }
