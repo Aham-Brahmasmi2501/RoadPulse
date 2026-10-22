@@ -1,0 +1,82 @@
+# ---------------------------------------------------------------------------
+# RoadPulse configuration
+# Every tunable knob (model, sampling, clustering, scoring) lives here so the
+# priority score stays transparent and easy to audit. Paths are relative to
+# the project root (the folder that contains backend/, frontend/, models/ ...).
+# ---------------------------------------------------------------------------
+
+model:
+  # Path(s) to YOLOv8 weights. Override with env var ROADPULSE_WEIGHTS
+  # (comma-separated). When several models are listed they run as an ensemble
+  # and boxes are merged with class-wise NMS.
+  #  - models/rdd_yolov8s.pt         YOLOv8s trained on RDD2022 Japan+India
+  #                                  (cracks, alligator cracks, potholes)
+  #  - models/pothole_yolov8n_seg.pt YOLOv8n(-seg) pothole specialist
+  #  - models/roadpulse_crack_yolov8n.pt  YOLOv8n fine-tuned here with scripts/train.py --crack-seg
+  weights:
+    - models/rdd_yolov8s.pt
+    - models/pothole_yolov8n_seg.pt
+    - models/roadpulse_crack_yolov8n.pt
+  ensemble_iou: 0.5       # boxes of the same class overlapping more than this are merged
+  conf_threshold: 0.25    # detections below this are discarded
+  iou_threshold: 0.45     # NMS IoU
+  imgsz: 640
+  # Maps model class names (case-insensitive substring match) to the four
+  # canonical RoadPulse classes. Unmatched names are dropped.
+  class_map:
+    pothole: pothole
+    alligator: alligator_crack
+    longitudinal: crack
+    transverse: crack
+    crack: crack
+    patch: patch_damage
+
+# Canonical classes, in YOLO label index order (used for feedback + eval labels)
+classes: [pothole, crack, alligator_crack, patch_damage]
+
+video:
+  sample_every_sec: 1.0     # take one frame every N seconds
+  dedupe_threshold: 6.0     # mean abs pixel diff (0-255) on 64x64 grey; below = near-identical, skipped
+  max_frames: 120           # safety cap per video
+
+privacy:
+  blur_default: true        # blur faces + number plates in saved frames
+
+review:
+  low_confidence: 0.5       # show warning badge under this confidence
+
+clustering:
+  eps_m: 15                 # DBSCAN radius in metres (haversine)
+  min_samples: 1            # every report belongs to some site
+  # DBSCAN chains points (frames 10 m apart along a damaged road become one
+  # long cluster). Clusters wider than this are split with complete-linkage
+  # clustering so no site spans more than max_span_m.
+  max_span_m: 30
+
+# ---------------------------------------------------------------------------
+# Priority score = sum of component points, total weight = 100.
+# Each component is first normalised to 0..1, then multiplied by its weight.
+# ---------------------------------------------------------------------------
+scoring:
+  weights:
+    size: 25          # largest bbox area ratio in the site
+    confidence: 10    # mean model confidence of the site's reports
+    sightings: 25     # unique reports in the cluster (log-scaled)
+    defect_type: 20   # type weight below
+    road_context: 10  # road context weight below
+    recency: 10       # exponential decay since last sighting
+  size_full_at: 0.12        # bbox area ratio that earns full size points
+  sightings_full_at: 8      # number of sightings that earns full points
+  recency_half_life_days: 14
+  type_weights:
+    pothole: 1.0
+    alligator_crack: 0.7
+    patch_damage: 0.45
+    crack: 0.3
+  road_weights:
+    highway: 1.0
+    main_road: 0.7
+    local_street: 0.3
+  bands:              # severity bands on the 0-100 score
+    medium: 40        # score >= 40 -> medium
+    high: 70          # score > 70 -> high

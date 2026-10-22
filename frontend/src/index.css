@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root { height: 100%; }
+body { @apply bg-navy-950 text-slate-200 font-sans antialiased; }
+
+@layer components {
+  .card { @apply bg-navy-900 border border-navy-700/70 rounded-xl; }
+  .btn { @apply inline-flex items-center justify-center gap-2 rounded-lg px-3.5 py-2 text-sm font-medium transition disabled:opacity-50 disabled:cursor-not-allowed; }
+  .btn-primary { @apply btn bg-accent text-white hover:bg-accent-soft; }
+  .btn-ghost { @apply btn bg-navy-800 text-slate-200 border border-navy-600 hover:bg-navy-700; }
+  .input { @apply bg-navy-850 border border-navy-600 rounded-lg px-3 py-2 text-sm text-slate-100 placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-accent/60; }
+  .label { @apply text-xs font-medium uppercase tracking-wide text-slate-400; }
+  .chip { @apply inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-xs font-medium; }
+}
+
+/* Dark-styled OpenStreetMap tiles (CSS filter keeps the standard OSM tile server) */
+.dark-tiles .leaflet-tile-pane { filter: invert(1) hue-rotate(180deg) brightness(0.92) contrast(0.88) saturate(0.6); }
+.leaflet-container { background: #0b1324; font-family: inherit; }
+.leaflet-popup-content-wrapper, .leaflet-popup-tip { background: #0f1a30; color: #e2e8f0; border: 1px solid #2a3b5f; }
+.leaflet-popup-content { margin: 12px; }
+.leaflet-container a.leaflet-popup-close-button { color: #94a3b8; }
+.leaflet-control-attribution { background: rgba(11,19,36,.8) !important; color: #94a3b8 !important; }
+.leaflet-control-attribution a { color: #fb923c !important; }
+.leaflet-bar a { background: #13203b; color: #e2e8f0; border-color: #2a3b5f; }
+.leaflet-bar a:hover { background: #1c2b4a; }
+
+/* Marker cluster bubbles in theme colours */
+.rp-cluster { border-radius: 9999px; display: flex; align-items: center; justify-content: center;
+  color: white; font-weight: 700; font-size: 13px; border: 3px solid rgba(255,255,255,.85);
+  box-shadow: 0 0 0 6px rgba(249,115,22,.25); }
+.rp-marker { border-radius: 9999px; border: 2px solid white; box-shadow: 0 1px 6px rgba(0,0,0,.6); }
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-thumb { background: #2a3b5f; border-radius: 8px; }
+::-webkit-scrollbar-track { background: transparent; }

@@ -1,0 +1,15 @@
+# RoadPulse backend - Python 3.11+
+# CPU-only machines: install the smaller CPU build of PyTorch first, e.g.
+#   pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
+fastapi>=0.110
+uvicorn[standard]>=0.29
+python-multipart>=0.0.9        # multipart uploads in FastAPI
+sqlalchemy>=2.0
+scikit-learn>=1.4              # DBSCAN with haversine metric
+ultralytics>=8.3,<9            # YOLOv8
+opencv-python>=4.8,<5          # OpenCV 5 removed the Haar CascadeClassifier used for privacy blur
+numpy>=1.26
+pillow>=10.0                   # EXIF GPS parsing
+pyyaml>=6.0
+gpxpy>=1.6                     # GPX track parsing
+dill>=0.3                      # needed to unpickle the pothole_yolov8n_seg.pt checkpoint

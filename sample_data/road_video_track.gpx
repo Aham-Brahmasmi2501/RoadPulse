@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gpx version="1.1" creator="RoadPulse demo" xmlns="http://www.topografix.com/GPX/1/1">
+<trk><name>SG Highway - Gota northbound</name><trkseg>
+<trkpt lat="23.097600" lon="72.539050"><time>2026-10-20T07:15:00Z</time></trkpt>
+<trkpt lat="23.097697" lon="72.539085"><time>2026-10-20T07:15:01Z</time></trkpt>
+<trkpt lat="23.097793" lon="72.539121"><time>2026-10-20T07:15:02Z</time></trkpt>
+<trkpt lat="23.097890" lon="72.539156"><time>2026-10-20T07:15:03Z</time></trkpt>
+<trkpt lat="23.097987" lon="72.539191"><time>2026-10-20T07:15:04Z</time></trkpt>
+<trkpt lat="23.098083" lon="72.539227"><time>2026-10-20T07:15:05Z</time></trkpt>
+<trkpt lat="23.098180" lon="72.539262"><time>2026-10-20T07:15:06Z</time></trkpt>
+<trkpt lat="23.098277" lon="72.539297"><time>2026-10-20T07:15:07Z</time></trkpt>
+<trkpt lat="23.098373" lon="72.539333"><time>2026-10-20T07:15:08Z</time></trkpt>
+<trkpt lat="23.098470" lon="72.539368"><time>2026-10-20T07:15:09Z</time></trkpt>
+<trkpt lat="23.098567" lon="72.539403"><time>2026-10-20T07:15:10Z</time></trkpt>
+<trkpt lat="23.098663" lon="72.539439"><time>2026-10-20T07:15:11Z</time></trkpt>
+<trkpt lat="23.098760" lon="72.539474"><time>2026-10-20T07:15:12Z</time></trkpt>
+<trkpt lat="23.098857" lon="72.539509"><time>2026-10-20T07:15:13Z</time></trkpt>
+<trkpt lat="23.098953" lon="72.539545"><time>2026-10-20T07:15:14Z</time></trkpt>
+<trkpt lat="23.099050" lon="72.539580"><time>2026-10-20T07:15:15Z</time></trkpt>
+</trkseg></trk>
+</gpx>

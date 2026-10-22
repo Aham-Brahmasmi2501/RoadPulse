@@ -1,0 +1,12 @@
+{
+  // GitHub Codespaces: "Code" -> "Codespaces" -> "Create codespace on main".
+  // Installs everything, then starts the whole site on port 8000 (forwarded automatically).
+  "name": "RoadPulse",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "features": { "ghcr.io/devcontainers/features/node:1": { "version": "20" } },
+  "hostRequirements": { "cpus": 4, "memory": "8gb" },
+  "postCreateCommand": "pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu && pip install -r requirements.txt && sudo apt-get update && sudo apt-get install -y libgl1 && cd frontend && npm ci && npm run build",
+  "postStartCommand": "nohup bash -c 'python scripts/seed.py && cd backend && uvicorn app.main:asgi --host 0.0.0.0 --port 8000' > /tmp/roadpulse.log 2>&1 &",
+  "forwardPorts": [8000],
+  "portsAttributes": { "8000": { "label": "RoadPulse", "onAutoForward": "openBrowser" } }
+}
